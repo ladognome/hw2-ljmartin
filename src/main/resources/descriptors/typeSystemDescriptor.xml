@@ -13,22 +13,22 @@
       <features>
         <featureDescription>
           <name>geneName</name>
-          <description/>
+          <description>entity</description>
           <rangeTypeName>uima.cas.String</rangeTypeName>
         </featureDescription>
         <featureDescription>
           <name>start</name>
-          <description/>
+          <description>starting position (no spaces)</description>
           <rangeTypeName>uima.cas.Integer</rangeTypeName>
         </featureDescription>
         <featureDescription>
           <name>end</name>
-          <description/>
+          <description>ending position (no spaces)</description>
           <rangeTypeName>uima.cas.Integer</rangeTypeName>
         </featureDescription>
         <featureDescription>
           <name>ID</name>
-          <description/>
+          <description>document id number</description>
           <rangeTypeName>uima.cas.String</rangeTypeName>
         </featureDescription>
       </features>

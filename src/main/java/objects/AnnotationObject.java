@@ -10,8 +10,8 @@ import org.apache.uima.jcas.tcas.Annotation;
 
 
 /** 
- * Updated by JCasGen Mon Sep 29 15:18:17 EDT 2014
- * XML source: /home/lara/workspace/hw1-ljmartin/src/main/resources/descriptors/ae-Acronym.xml
+ * Updated by JCasGen Sun Oct 05 17:47:29 EDT 2014
+ * XML source: /home/lara/workspace/hw2-ljmartin/src/main/resources/descriptors/typeSystemDescriptor.xml
  * @generated */
 public class AnnotationObject extends Annotation {
   /** @generated
@@ -78,7 +78,7 @@ public class AnnotationObject extends Annotation {
   //*--------------*
   //* Feature: geneName
 
-  /** getter for geneName - gets 
+  /** getter for geneName - gets entity
    * @generated
    * @return value of the feature 
    */
@@ -87,7 +87,7 @@ public class AnnotationObject extends Annotation {
       jcasType.jcas.throwFeatMissing("geneName", "objects.AnnotationObject");
     return jcasType.ll_cas.ll_getStringValue(addr, ((AnnotationObject_Type)jcasType).casFeatCode_geneName);}
     
-  /** setter for geneName - sets  
+  /** setter for geneName - sets entity 
    * @generated
    * @param v value to set into the feature 
    */
@@ -100,7 +100,7 @@ public class AnnotationObject extends Annotation {
   //*--------------*
   //* Feature: start
 
-  /** getter for start - gets 
+  /** getter for start - gets starting position (no spaces)
    * @generated
    * @return value of the feature 
    */
@@ -109,7 +109,7 @@ public class AnnotationObject extends Annotation {
       jcasType.jcas.throwFeatMissing("start", "objects.AnnotationObject");
     return jcasType.ll_cas.ll_getIntValue(addr, ((AnnotationObject_Type)jcasType).casFeatCode_start);}
     
-  /** setter for start - sets  
+  /** setter for start - sets starting position (no spaces) 
    * @generated
    * @param v value to set into the feature 
    */
@@ -122,7 +122,7 @@ public class AnnotationObject extends Annotation {
   //*--------------*
   //* Feature: end
 
-  /** getter for end - gets 
+  /** getter for end - gets ending position (no spaces)
    * @generated
    * @return value of the feature 
    */
@@ -131,7 +131,7 @@ public class AnnotationObject extends Annotation {
       jcasType.jcas.throwFeatMissing("end", "objects.AnnotationObject");
     return jcasType.ll_cas.ll_getIntValue(addr, ((AnnotationObject_Type)jcasType).casFeatCode_end);}
     
-  /** setter for end - sets  
+  /** setter for end - sets ending position (no spaces) 
    * @generated
    * @param v value to set into the feature 
    */
@@ -144,7 +144,7 @@ public class AnnotationObject extends Annotation {
   //*--------------*
   //* Feature: ID
 
-  /** getter for ID - gets 
+  /** getter for ID - gets document id number
    * @generated
    * @return value of the feature 
    */
@@ -153,7 +153,7 @@ public class AnnotationObject extends Annotation {
       jcasType.jcas.throwFeatMissing("ID", "objects.AnnotationObject");
     return jcasType.ll_cas.ll_getStringValue(addr, ((AnnotationObject_Type)jcasType).casFeatCode_ID);}
     
-  /** setter for ID - sets  
+  /** setter for ID - sets document id number 
    * @generated
    * @param v value to set into the feature 
    */
