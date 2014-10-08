@@ -8,7 +8,7 @@
                 <nameValuePair>
                     <name>inputFile</name>
                     <value>
-                        <string>hw1.in</string>
+                        <string>src/main/resources/data/sample.in</string>
                     </value>
                 </nameValuePair>
             </configurationParameterSettings>
@@ -17,7 +17,7 @@
     <casProcessors casPoolSize="2" processingUnitThreadCount="1">
         <casProcessor deployment="integrated" name="PosTagger">
             <descriptor>
-                <import location="descriptors/ner/ae-PosDescriptor.xml"/>
+                <import location="descriptors/ner/ae-LingPipeDescriptor.xml"/>
             </descriptor>
             <deploymentParameters/>
             <errorHandling>

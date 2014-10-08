@@ -11,10 +11,10 @@ import org.apache.uima.cas.impl.TypeImpl;
 import org.apache.uima.cas.Type;
 import org.apache.uima.cas.impl.FeatureImpl;
 import org.apache.uima.cas.Feature;
-import org.apache.uima.jcas.tcas.Annotation_Type;
+import edu.cmu.deiis.types.Annotation_Type;
 
 /** 
- * Updated by JCasGen Sun Oct 05 17:47:29 EDT 2014
+ * Updated by JCasGen Tue Oct 07 20:26:04 EDT 2014
  * @generated */
 public class AnnotationObject_Type extends Annotation_Type {
   /** @generated 
@@ -117,30 +117,6 @@ public class AnnotationObject_Type extends Annotation_Type {
     ll_cas.ll_setIntValue(addr, casFeatCode_end, v);}
     
   
- 
-  /** @generated */
-  final Feature casFeat_ID;
-  /** @generated */
-  final int     casFeatCode_ID;
-  /** @generated
-   * @param addr low level Feature Structure reference
-   * @return the feature value 
-   */ 
-  public String getID(int addr) {
-        if (featOkTst && casFeat_ID == null)
-      jcas.throwFeatMissing("ID", "objects.AnnotationObject");
-    return ll_cas.ll_getStringValue(addr, casFeatCode_ID);
-  }
-  /** @generated
-   * @param addr low level Feature Structure reference
-   * @param v value to set 
-   */    
-  public void setID(int addr, String v) {
-        if (featOkTst && casFeat_ID == null)
-      jcas.throwFeatMissing("ID", "objects.AnnotationObject");
-    ll_cas.ll_setStringValue(addr, casFeatCode_ID, v);}
-    
-  
 
 
 
@@ -164,10 +140,6 @@ public class AnnotationObject_Type extends Annotation_Type {
  
     casFeat_end = jcas.getRequiredFeatureDE(casType, "end", "uima.cas.Integer", featOkTst);
     casFeatCode_end  = (null == casFeat_end) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_end).getCode();
-
- 
-    casFeat_ID = jcas.getRequiredFeatureDE(casType, "ID", "uima.cas.String", featOkTst);
-    casFeatCode_ID  = (null == casFeat_ID) ? JCas.INVALID_FEATURE_CODE : ((FeatureImpl)casFeat_ID).getCode();
 
   }
 }

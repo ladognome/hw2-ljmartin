@@ -5,11 +5,14 @@
     <description/>
     <version>1.0</version>
     <vendor/>
+  <imports>
+    <import name="descriptors.deiis_types"/>
+  </imports>
   <types>
     <typeDescription>
       <name>objects.AnnotationObject</name>
       <description/>
-      <supertypeName>uima.tcas.Annotation</supertypeName>
+      <supertypeName>edu.cmu.deiis.types.Annotation</supertypeName>
       <features>
         <featureDescription>
           <name>geneName</name>
@@ -26,12 +29,7 @@
           <description>ending position (no spaces)</description>
           <rangeTypeName>uima.cas.Integer</rangeTypeName>
         </featureDescription>
-        <featureDescription>
-          <name>ID</name>
-          <description>document id number</description>
-          <rangeTypeName>uima.cas.String</rangeTypeName>
-        </featureDescription>
-      </features>
+        </features>
     </typeDescription>
   </types>
 </typeSystemDescription>

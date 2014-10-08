@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import objects.AnnotationObject;
+import objects.DocID;
 
 import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASException;
@@ -69,42 +70,40 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
   @Override
   public void processCas(CAS aCAS) throws ResourceProcessException {
     JCas jcas;
+    String id = null;
     try {
       jcas = aCAS.getJCas();
     } catch (CASException e) {
       throw new ResourceProcessException(e);
     }
 
-    boolean titleP = false;
-    String docUri = null;
-    Iterator it = jcas.getAnnotationIndex(SourceDocumentInformation.type).iterator();
+    Iterator it = jcas.getAnnotationIndex(DocID.type).iterator();
     if (it.hasNext()) {
-      SourceDocumentInformation srcDocInfo = (SourceDocumentInformation) it.next();
-      docUri = srcDocInfo.getUri();
+      DocID did = (DocID) it.next();
+      id = did.getID();
     }
 
     // iterate and print annotations
     Iterator annotationIter = jcas.getAnnotationIndex(AnnotationObject.type).iterator();
+
     while (annotationIter.hasNext()) {
       AnnotationObject annot = (AnnotationObject) annotationIter.next();
       String outString = "";
-      if (titleP == false) {
-        try {
-          if (docUri != null)
-            outString = docUri + "|" + annot.getBegin() + " " + annot.getEnd() + "|"
-                    + annot.getGeneName();
-          if (!predictions.contains(outString)) {
-            fileWriter.write(outString + "\n");
-            predictions.add(outString);
-          }
 
-        } catch (IOException e) {
-          throw new ResourceProcessException(e);
+      try {
+        if (id != null)
+          outString = id + "|" + annot.getBegin() + " " + annot.getEnd() + "|"
+                  + annot.getGeneName();
+        if (!predictions.contains(outString)) {
+          fileWriter.write(outString + "\n");
+          predictions.add(outString);
         }
-        titleP = true;
-      }
-    }
 
+      } catch (IOException e) {
+        throw new ResourceProcessException(e);
+      }
+
+    }
   }
 
   @Override

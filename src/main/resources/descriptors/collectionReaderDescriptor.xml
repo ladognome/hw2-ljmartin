@@ -19,8 +19,7 @@
     <configurationParameterSettings/>
     <typeSystemDescription>
       <imports>
-        <import name="descriptors.typeSystemDescriptor"/>
-        <import name="org.apache.uima.examples.SourceDocumentInformation"/>
+        <import name="descriptors.docID"/>
       </imports>
     </typeSystemDescription>
     <typePriorities/>

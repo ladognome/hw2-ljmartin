@@ -10,8 +10,8 @@ import org.apache.uima.jcas.cas.TOP_Type;
 
 
 /** 
- * Updated by JCasGen Wed Sep 11 13:44:28 EDT 2013
- * XML source: /home/diwang/ur-workspace/deiis-f13-homework/src/main/resources/desc/deiis_types.xml
+ * Updated by JCasGen Tue Oct 07 20:26:04 EDT 2014
+ * XML source: /home/lara/workspace/hw2-ljmartin/src/main/resources/descriptors/collectionReaderDescriptor.xml
  * @generated */
 public class AnswerScore extends Annotation {
   /** @generated
@@ -53,10 +53,13 @@ public class AnswerScore extends Annotation {
     readObject();
   }   
 
-  /** <!-- begin-user-doc -->
+  /** 
+   * <!-- begin-user-doc -->
     * Write your own initialization here
     * <!-- end-user-doc -->
-  @generated modifiable */
+  *
+   * @generated modifiable 
+   */
   private void readObject() {/*default - does nothing empty block */}
      
  
@@ -65,14 +68,18 @@ public class AnswerScore extends Annotation {
   //* Feature: score
 
   /** getter for score - gets 
-   * @generated */
+   * @generated
+   * @return value of the feature 
+   */
   public double getScore() {
     if (AnswerScore_Type.featOkTst && ((AnswerScore_Type)jcasType).casFeat_score == null)
       jcasType.jcas.throwFeatMissing("score", "edu.cmu.deiis.types.AnswerScore");
     return jcasType.ll_cas.ll_getDoubleValue(addr, ((AnswerScore_Type)jcasType).casFeatCode_score);}
     
   /** setter for score - sets  
-   * @generated */
+   * @generated
+   * @param v value to set into the feature 
+   */
   public void setScore(double v) {
     if (AnswerScore_Type.featOkTst && ((AnswerScore_Type)jcasType).casFeat_score == null)
       jcasType.jcas.throwFeatMissing("score", "edu.cmu.deiis.types.AnswerScore");
@@ -83,14 +90,18 @@ public class AnswerScore extends Annotation {
   //* Feature: answer
 
   /** getter for answer - gets 
-   * @generated */
+   * @generated
+   * @return value of the feature 
+   */
   public Answer getAnswer() {
     if (AnswerScore_Type.featOkTst && ((AnswerScore_Type)jcasType).casFeat_answer == null)
       jcasType.jcas.throwFeatMissing("answer", "edu.cmu.deiis.types.AnswerScore");
     return (Answer)(jcasType.ll_cas.ll_getFSForRef(jcasType.ll_cas.ll_getRefValue(addr, ((AnswerScore_Type)jcasType).casFeatCode_answer)));}
     
   /** setter for answer - sets  
-   * @generated */
+   * @generated
+   * @param v value to set into the feature 
+   */
   public void setAnswer(Answer v) {
     if (AnswerScore_Type.featOkTst && ((AnswerScore_Type)jcasType).casFeat_answer == null)
       jcasType.jcas.throwFeatMissing("answer", "edu.cmu.deiis.types.AnswerScore");

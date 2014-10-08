@@ -6,12 +6,12 @@ package objects;
 import org.apache.uima.jcas.JCas; 
 import org.apache.uima.jcas.JCasRegistry;
 import org.apache.uima.jcas.cas.TOP_Type;
-import org.apache.uima.jcas.tcas.Annotation;
+import edu.cmu.deiis.types.Annotation;
 
 
 /** 
- * Updated by JCasGen Sun Oct 05 17:47:29 EDT 2014
- * XML source: /home/lara/workspace/hw2-ljmartin/src/main/resources/descriptors/typeSystemDescriptor.xml
+ * Updated by JCasGen Tue Oct 07 20:26:04 EDT 2014
+ * XML source: /home/lara/workspace/hw2-ljmartin/src/main/resources/descriptors/collectionReaderDescriptor.xml
  * @generated */
 public class AnnotationObject extends Annotation {
   /** @generated
@@ -139,28 +139,6 @@ public class AnnotationObject extends Annotation {
     if (AnnotationObject_Type.featOkTst && ((AnnotationObject_Type)jcasType).casFeat_end == null)
       jcasType.jcas.throwFeatMissing("end", "objects.AnnotationObject");
     jcasType.ll_cas.ll_setIntValue(addr, ((AnnotationObject_Type)jcasType).casFeatCode_end, v);}    
-   
-    
-  //*--------------*
-  //* Feature: ID
-
-  /** getter for ID - gets document id number
-   * @generated
-   * @return value of the feature 
-   */
-  public String getID() {
-    if (AnnotationObject_Type.featOkTst && ((AnnotationObject_Type)jcasType).casFeat_ID == null)
-      jcasType.jcas.throwFeatMissing("ID", "objects.AnnotationObject");
-    return jcasType.ll_cas.ll_getStringValue(addr, ((AnnotationObject_Type)jcasType).casFeatCode_ID);}
-    
-  /** setter for ID - sets document id number 
-   * @generated
-   * @param v value to set into the feature 
-   */
-  public void setID(String v) {
-    if (AnnotationObject_Type.featOkTst && ((AnnotationObject_Type)jcasType).casFeat_ID == null)
-      jcasType.jcas.throwFeatMissing("ID", "objects.AnnotationObject");
-    jcasType.ll_cas.ll_setStringValue(addr, ((AnnotationObject_Type)jcasType).casFeatCode_ID, v);}    
   }
 
     

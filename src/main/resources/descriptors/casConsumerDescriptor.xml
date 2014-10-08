@@ -26,6 +26,7 @@
     <typeSystemDescription>
       <imports>
         <import name="descriptors.typeSystemDescriptor"/>
+        <import name="descriptors.docID"/>
       </imports>
     </typeSystemDescription>
     <typePriorities/>
