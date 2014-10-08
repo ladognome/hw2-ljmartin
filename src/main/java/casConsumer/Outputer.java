@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import objects.AnnotationObject;
@@ -89,7 +90,7 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
     while (annotationIter.hasNext()) {
       AnnotationObject annot = (AnnotationObject) annotationIter.next();
       String outString = "";
-      //System.out.println(annot.getCasProcessorId());
+      // System.out.println(annot.getCasProcessorId());
       try {
         if (id != null)
           outString = id + "|" + annot.getBegin() + " " + annot.getEnd() + "|"
@@ -138,10 +139,14 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
   private void checkAccuracy(ArrayList<String> prediction, String goldStandard) throws IOException {
 
     BufferedReader br = new BufferedReader(new FileReader(goldStandard));
-    ArrayList<String> gold = new ArrayList<String>();
+    HashMap<String, String> gold = new HashMap<String, String>();
     String line;
+    //prediction = id + "|" + annot.getBegin() + " " + annot.getEnd() + "|" + annot.getGeneName();
     while ((line = br.readLine()) != null) {
-      gold.add(line.trim());
+      int p=line.lastIndexOf("|");
+      String gene = line.substring(p+1);
+      String key = line.substring(0,p+1);
+      gold.put(key, gene);
     }
     br.close();
 
@@ -150,16 +155,18 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
     int relRet = 0;
 
     for (String s : prediction) {
-      if (gold.contains(s)) {
+      int p=s.lastIndexOf("|");
+      String key = s.substring(0,p+1);
+      if (gold.containsKey(key)) {
         relRet++;
       }
     }
 
     double precision = (double) relRet / (double) retrieved;
     double recall = (double) relRet / (double) relevant;
-    double f1 = 2*precision*recall/(precision+recall);
+    double f1 = 2 * precision * recall / (precision + recall);
     System.out.println("Precision: " + relRet + "/" + retrieved + " = " + precision + "\nRecall: "
-            + relRet + "/" + relevant + " = " + recall+"\nF1: "+f1);
+            + relRet + "/" + relevant + " = " + recall + "\nF1: " + f1);
 
   }
 

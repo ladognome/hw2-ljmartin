@@ -91,10 +91,10 @@ public class PosTagger extends Annotater_Helper {
 
       if (!common.contains(entity)) {
         // From hw 1
-        // Precision: 1521/14931 = 0.10186859553948162
-        // Recall: 1521/18265 = 0.08327402135231317
-        // F1 would be: 2*pre*rec / pre+rec = 0.016966015 / 0.185142617 = 0.091637546
-        addToCas(start, end, 0.091637546, doc, this.getClass().getName(), aCAS);
+        //Precision: 10862/86763 = 0.12519161393681638
+        //Recall: 10862/18265 = 0.5946892964686559
+        //F1: 0.206840080740374
+        addToCas(start, end, 0.206840080740374, doc, this.getClass().getName(), aCAS);
       }
     }
   }
