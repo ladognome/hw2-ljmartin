@@ -15,11 +15,8 @@ import com.aliasi.util.AbstractExternalizable;
 import util.Annotater_Helper;
 
 /*
- * Wrapper to call PosTagNamedEntityRecognizer; gets nouns and adjectives
- * Gets word from text, given the positions
- * Removes whitespaces in positions
- * Updates CAS with annotation, except for words found in list of most common English words
- * Used org.apache.uima.examples.cas.RegExAnnotator as template
+ * Gets the N-best chunks from LingPipe's genetag named entity extractor (HMM chunker)
+ * Updates CAS with annotation for each sentence -- passes to addtoCas
  */
 
 public class GeneLingTagger extends Annotater_Helper {
