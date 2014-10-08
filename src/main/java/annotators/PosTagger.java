@@ -9,10 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import objects.AnnotationObject;
-
 import org.apache.uima.UimaContext;
-import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;

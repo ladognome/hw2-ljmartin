@@ -89,7 +89,7 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
     while (annotationIter.hasNext()) {
       AnnotationObject annot = (AnnotationObject) annotationIter.next();
       String outString = "";
-      System.out.println(annot.getCasProcessorId());
+      //System.out.println(annot.getCasProcessorId());
       try {
         if (id != null)
           outString = id + "|" + annot.getBegin() + " " + annot.getEnd() + "|"
