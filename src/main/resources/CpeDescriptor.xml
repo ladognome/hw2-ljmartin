@@ -15,9 +15,9 @@
         </collectionIterator>
     </collectionReader>
     <casProcessors casPoolSize="2" processingUnitThreadCount="1">
-        <casProcessor deployment="integrated" name="PosTagger">
+        <casProcessor deployment="integrated" name="Aggregate">
             <descriptor>
-                <import location="descriptors/ner/ae-LingPipeDescriptor.xml"/>
+                <import location="descriptors/ner/aaeDescriptor.xml"/>
             </descriptor>
             <deploymentParameters/>
             <errorHandling>

@@ -89,7 +89,7 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
     while (annotationIter.hasNext()) {
       AnnotationObject annot = (AnnotationObject) annotationIter.next();
       String outString = "";
-
+      System.out.println(annot.getCasProcessorId());
       try {
         if (id != null)
           outString = id + "|" + annot.getBegin() + " " + annot.getEnd() + "|"
@@ -157,8 +157,9 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
 
     double precision = (double) relRet / (double) retrieved;
     double recall = (double) relRet / (double) relevant;
+    double f1 = 2*precision*recall/(precision+recall);
     System.out.println("Precision: " + relRet + "/" + retrieved + " = " + precision + "\nRecall: "
-            + relRet + "/" + relevant + " = " + recall);
+            + relRet + "/" + relevant + " = " + recall+"\nF1: "+f1);
 
   }
 

@@ -40,7 +40,7 @@ public class GeneLingTagger extends Annotater_Helper {
       e.printStackTrace();
     }
 
-    MAX_N_BEST_CHUNKS = 100;
+    MAX_N_BEST_CHUNKS = 10;
   }
 
   @Override
@@ -76,7 +76,7 @@ public class GeneLingTagger extends Annotater_Helper {
       double conf = Math.pow(2.0, chunk.score());
       int start = chunk.start();
       int end = chunk.end();
-      if (conf > 0.9) {
+      if (conf > 0.8) {
         // System.out.println(start + " " + end + " " + conf + " " + doc.substring(start, end));
         addToCas(start, end, conf, doc, this.getClass().getName(), aCAS);
       }

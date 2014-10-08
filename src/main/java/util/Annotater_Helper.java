@@ -7,7 +7,6 @@ import org.apache.uima.jcas.JCas;
 
 public abstract class Annotater_Helper extends JCasAnnotator_ImplBase {
 
-  int i = 0;
   /**
    * Given a string, find the number of whitespace characters
    *
@@ -56,8 +55,7 @@ public abstract class Annotater_Helper extends JCasAnnotator_ImplBase {
     ann.setCasProcessorId(CAS_ID);
     ann.setGeneName(entity);
     ann.addToIndexes();
-    i++;
-    System.out.println(i+ "                "+conf + "       (" + start + ", " + end + ")       " + entity);
+    //System.out.println(conf + "       (" + start + ", " + end + ")       " + entity);
     
   }
 
