@@ -16,7 +16,6 @@ import org.apache.uima.cas.CAS;
 import org.apache.uima.cas.CASException;
 import org.apache.uima.collection.CasConsumer_ImplBase;
 import org.apache.uima.collection.base_cpm.CasObjectProcessor;
-import org.apache.uima.examples.SourceDocumentInformation;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceProcessException;
@@ -35,9 +34,12 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
 
   private String gold;
 
-  private ArrayList<String> predictions = new ArrayList<String>();
+  private HashMap<String, Double> predictions;
+
+  private static double threshold = 0.9;
 
   public Outputer() {
+    predictions = new HashMap<String, Double>();
   }
 
   public void initialize() throws ResourceInitializationException {
@@ -86,24 +88,37 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
 
     // iterate and print annotations
     Iterator annotationIter = jcas.getAnnotationIndex(AnnotationObject.type).iterator();
-
     while (annotationIter.hasNext()) {
       AnnotationObject annot = (AnnotationObject) annotationIter.next();
-      String outString = "";
-      // System.out.println(annot.getCasProcessorId());
       try {
-        if (id != null)
-          outString = id + "|" + annot.getBegin() + " " + annot.getEnd() + "|"
-                  + annot.getGeneName();
-        if (!predictions.contains(outString)) {
-          fileWriter.write(outString + "\n");
-          predictions.add(outString);
-        }
-
-      } catch (IOException e) {
-        throw new ResourceProcessException(e);
+        combiner(id, annot);
+      } catch (ResourceProcessException e) {
+        e.printStackTrace();
       }
 
+    }
+  }
+
+  private void combiner(String id, AnnotationObject annot) throws ResourceProcessException {
+    String outString = "";
+    try {
+      if (id != null) {
+        outString = id + "|" + annot.getBegin() + " " + annot.getEnd() + "|" + annot.getGeneName();
+        if (annot.getCasProcessorId() == "annotators.PosTagger") {
+          if (predictions.containsKey(outString)) {
+            double conf = predictions.get(outString) + annot.getConfidence();
+            predictions.put(outString, conf);
+          }
+        } else {
+          predictions.put(outString, annot.getConfidence());
+        }
+        if (!predictions.containsKey(outString) && predictions.get(outString) >= threshold) {
+          fileWriter.write(outString + "\n");
+        }
+      }
+
+    } catch (IOException e) {
+      throw new ResourceProcessException(e);
     }
   }
 
@@ -113,7 +128,6 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
       try {
         checkAccuracy(predictions, gold);
       } catch (IOException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
     }
@@ -129,34 +143,34 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
   /**
    * Prints (to System.out) precision and recall given a gold-standard and the predictions.
    *
-   * @param prediction
+   * @param predictions
    *          an arrayList of strings that hold your predictions in the same format as the
    *          goldStandard, split by line
    * @param goldStandard
    *          a string of the location where the goldStandard file can be found
    * @return void
    */
-  private void checkAccuracy(ArrayList<String> prediction, String goldStandard) throws IOException {
+  private void checkAccuracy(HashMap<String, Double> predictions, String goldStandard) throws IOException {
 
     BufferedReader br = new BufferedReader(new FileReader(goldStandard));
     HashMap<String, String> gold = new HashMap<String, String>();
     String line;
-    //prediction = id + "|" + annot.getBegin() + " " + annot.getEnd() + "|" + annot.getGeneName();
+    // prediction = id + "|" + annot.getBegin() + " " + annot.getEnd() + "|" + annot.getGeneName();
     while ((line = br.readLine()) != null) {
-      int p=line.lastIndexOf("|");
-      String gene = line.substring(p+1);
-      String key = line.substring(0,p+1);
+      int p = line.lastIndexOf("|");
+      String gene = line.substring(p + 1);
+      String key = line.substring(0, p + 1);
       gold.put(key, gene);
     }
     br.close();
 
     int relevant = gold.size();
-    int retrieved = prediction.size();
+    int retrieved = predictions.size();
     int relRet = 0;
 
-    for (String s : prediction) {
-      int p=s.lastIndexOf("|");
-      String key = s.substring(0,p+1);
+    for (String s : predictions.keySet()) {
+      int p = s.lastIndexOf("|");
+      String key = s.substring(0, p + 1);
       if (gold.containsKey(key)) {
         relRet++;
       }

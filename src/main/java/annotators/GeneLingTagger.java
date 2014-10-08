@@ -31,9 +31,8 @@ public class GeneLingTagger extends Annotater_Helper {
 
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
     super.initialize(aContext);
-    File f = new File("src/main/resources/hmm/ne-en-bio-genetag.HmmChunker");
     try {
-      chunker = (ConfidenceChunker) AbstractExternalizable.readObject(f);
+      chunker = (ConfidenceChunker) AbstractExternalizable.readResourceObject((String) aContext.getConfigParameterValue("GeneHMM"));
     } catch (IOException e) {
       e.printStackTrace();
     } catch (ClassNotFoundException e) {

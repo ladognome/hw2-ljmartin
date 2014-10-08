@@ -1,8 +1,8 @@
 package annotators;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,10 +36,6 @@ import util.Annotater_Helper;
 
 public class PosTagger extends Annotater_Helper {
 
-  // private PosTagNamedEntityRecognizer pt;
-
-  private String commonWords = "src/main/resources/data/commonWords.txt";
-
   private ArrayList<String> common;
 
   private StanfordCoreNLP pipeline;
@@ -52,7 +48,7 @@ public class PosTagger extends Annotater_Helper {
 
     // list of most common words in English
     try {
-      common = readFile(commonWords);
+      common = readFile((String) aContext.getConfigParameterValue("commonWords"));
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -91,9 +87,9 @@ public class PosTagger extends Annotater_Helper {
 
       if (!common.contains(entity)) {
         // From hw 1
-        //Precision: 10862/86763 = 0.12519161393681638
-        //Recall: 10862/18265 = 0.5946892964686559
-        //F1: 0.206840080740374
+        // Precision: 10862/86763 = 0.12519161393681638
+        // Recall: 10862/18265 = 0.5946892964686559import java.io.FileReader;
+        // F1: 0.206840080740374
         addToCas(start, end, 0.206840080740374, doc, this.getClass().getName(), aCAS);
       }
     }
@@ -107,7 +103,8 @@ public class PosTagger extends Annotater_Helper {
    * @return ArrayList<String> of lines from the file
    */
   private ArrayList<String> readFile(String file) throws IOException {
-    BufferedReader br = new BufferedReader(new FileReader(file));
+    // BufferedReader br = new BufferedReader(new FileReader(file));
+    BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream(file)));
     ArrayList<String> list = new ArrayList<String>();
     String line;
     while ((line = br.readLine()) != null) {
