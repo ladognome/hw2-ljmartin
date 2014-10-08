@@ -5,9 +5,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
 import objects.AnnotationObject;
 import objects.DocID;
@@ -17,6 +17,7 @@ import org.apache.uima.cas.CASException;
 import org.apache.uima.collection.CasConsumer_ImplBase;
 import org.apache.uima.collection.base_cpm.CasObjectProcessor;
 import org.apache.uima.jcas.JCas;
+import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceProcessException;
 
@@ -36,7 +37,7 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
 
   private HashMap<String, Double> predictions;
 
-  private static double threshold = 0.9;
+  private double threshold = 0.8;
 
   public Outputer() {
     predictions = new HashMap<String, Double>();
@@ -80,28 +81,17 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
       throw new ResourceProcessException(e);
     }
 
-    Iterator it = jcas.getAnnotationIndex(DocID.type).iterator();
+    Iterator<Annotation> it = jcas.getAnnotationIndex(DocID.type).iterator();
     if (it.hasNext()) {
       DocID did = (DocID) it.next();
       id = did.getID();
     }
 
     // iterate and print annotations
-    Iterator annotationIter = jcas.getAnnotationIndex(AnnotationObject.type).iterator();
+    Iterator<Annotation> annotationIter = jcas.getAnnotationIndex(AnnotationObject.type).iterator();
     while (annotationIter.hasNext()) {
+      String outString = "";
       AnnotationObject annot = (AnnotationObject) annotationIter.next();
-      try {
-        combiner(id, annot);
-      } catch (ResourceProcessException e) {
-        e.printStackTrace();
-      }
-
-    }
-  }
-
-  private void combiner(String id, AnnotationObject annot) throws ResourceProcessException {
-    String outString = "";
-    try {
       if (id != null) {
         outString = id + "|" + annot.getBegin() + " " + annot.getEnd() + "|" + annot.getGeneName();
         if (annot.getCasProcessorId() == "annotators.PosTagger") {
@@ -112,18 +102,26 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
         } else {
           predictions.put(outString, annot.getConfidence());
         }
-        if (!predictions.containsKey(outString) && predictions.get(outString) >= threshold) {
-          fileWriter.write(outString + "\n");
-        }
+
       }
 
-    } catch (IOException e) {
-      throw new ResourceProcessException(e);
     }
   }
 
   @Override
   public void destroy() {
+    Iterator<Entry<String, Double>> it = predictions.entrySet().iterator();
+    while (it.hasNext()) {
+      Entry<String, Double> pairs = (Entry<String, Double>) it.next();
+      if (pairs.getValue() >= threshold) {
+        try {
+          fileWriter.write(pairs.getKey() + "\n");
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+
     if (gold != null) {
       try {
         checkAccuracy(predictions, gold);
@@ -150,7 +148,8 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
    *          a string of the location where the goldStandard file can be found
    * @return void
    */
-  private void checkAccuracy(HashMap<String, Double> predictions, String goldStandard) throws IOException {
+  private void checkAccuracy(HashMap<String, Double> predictions, String goldStandard)
+          throws IOException {
 
     BufferedReader br = new BufferedReader(new FileReader(goldStandard));
     HashMap<String, String> gold = new HashMap<String, String>();
