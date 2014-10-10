@@ -5,7 +5,15 @@ import objects.AnnotationObject;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.jcas.JCas;
 
-public abstract class Annotater_Helper extends JCasAnnotator_ImplBase {
+/**
+ * 
+ * Abstract class to augment annotator class. Changes indexes of annotation and adds all annotation
+ * information to CAS.
+ * 
+ * @author Lara Martin
+ */
+
+public abstract class AnnotaterHelper extends JCasAnnotator_ImplBase {
 
   /**
    * Given a string, find the number of whitespace characters
@@ -36,6 +44,8 @@ public abstract class Annotater_Helper extends JCasAnnotator_ImplBase {
    *          a (double) confidence value
    * @param doc
    *          the original document text
+   * @param CAS_ID
+   *          id of the processer that made the annotation
    * @param aCASint
    *          the JCas we're working with
    * 
@@ -55,8 +65,8 @@ public abstract class Annotater_Helper extends JCasAnnotator_ImplBase {
     ann.setCasProcessorId(CAS_ID);
     ann.setGeneName(entity);
     ann.addToIndexes();
-    //System.out.println(conf + "       (" + start + ", " + end + ")       " + entity);
-    
+    // System.out.println(conf + "       (" + start + ", " + end + ")       " + entity);
+
   }
 
 }

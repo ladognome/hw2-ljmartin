@@ -21,12 +21,13 @@ import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.resource.ResourceProcessException;
 
-/* 
- * Outputs annotations in <ID>|<start> <end>|<entity> form
- * Prints to file specified from cpe xml(required)
- * Can specify gold standard file to compare to in order to create precision and recall measures
- * Used org.apache.uima.examples.cpe.AnnotationPrinter as template
- */
+/**
+ * Outputs annotations in <ID>|<start> <end>|<entity> form. Prints to output file (required)
+ * specified from cpe xml. Can specify gold standard file (optional) to compare to in order to
+ * create precision and recall measures.
+ * 
+ * @author Lara Martin
+ **/
 
 public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor {
   File outFile;
@@ -44,13 +45,11 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
   }
 
   public void initialize() throws ResourceInitializationException {
-
-    // extract configuration parameter settings
+    // extract outputfile location from cpe
     String oPath = (String) getUimaContext().getConfigParameterValue("outputFile");
     // find goldStandard file, if it is given
     gold = (String) getUimaContext().getConfigParameterValue("goldStandard");
 
-    // Output file should be specified in the descriptor
     if (oPath == null) {
       throw new ResourceInitializationException(
               ResourceInitializationException.CONFIG_SETTING_ABSENT, new Object[] { "outputFile" });
@@ -65,12 +64,16 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
                     "outputFile" });
     }
     try {
+      // And open the file to be written to
       fileWriter = new FileWriter(outFile);
     } catch (IOException e) {
       throw new ResourceInitializationException(e);
     }
   }
 
+  /**
+   * Consumes CAS and prints to file
+   */
   @Override
   public void processCas(CAS aCAS) throws ResourceProcessException {
     JCas jcas;
@@ -81,13 +84,14 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
       throw new ResourceProcessException(e);
     }
 
+    // get next DocID object if it exists
     Iterator<Annotation> it = jcas.getAnnotationIndex(DocID.type).iterator();
     if (it.hasNext()) {
       DocID did = (DocID) it.next();
       id = did.getID();
     }
 
-    // iterate and print annotations
+    // iterate through and print annotations
     Iterator<Annotation> annotationIter = jcas.getAnnotationIndex(AnnotationObject.type).iterator();
     while (annotationIter.hasNext()) {
       String outString = "";
@@ -108,6 +112,10 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
     }
   }
 
+  /**
+   * Once we're done, go through the predictions and only write the ones that are above the
+   * specified threshold
+   */
   @Override
   public void destroy() {
     Iterator<Entry<String, Double>> it = predictions.entrySet().iterator();
@@ -142,8 +150,8 @@ public class Outputer extends CasConsumer_ImplBase implements CasObjectProcessor
    * Prints (to System.out) precision and recall given a gold-standard and the predictions.
    *
    * @param predictions
-   *          an arrayList of strings that hold your predictions in the same format as the
-   *          goldStandard, split by line
+   *          a HashMap of strings that hold your predictions with the output-formatted line(string)
+   *          as the key and the confidence(double) as the value, split by line
    * @param goldStandard
    *          a string of the location where the goldStandard file can be found
    * @return void

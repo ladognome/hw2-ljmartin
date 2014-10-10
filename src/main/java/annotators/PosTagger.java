@@ -21,20 +21,18 @@ import edu.stanford.nlp.ling.CoreAnnotations.TokensAnnotation;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
-import util.Annotater_Helper;
+import util.AnnotaterHelper;
 
-/*
- * Wrapper to call PosTagNamedEntityRecognizer; gets nouns and adjectives
- * Gets word from text, given the positions
- * Removes whitespaces in positions
- * Updates CAS with annotation, except for words found in list of most common English words
- * Used org.apache.uima.examples.cas.RegExAnnotator as template
+/**
+ * Analysis engine which gets nouns and adjectives from a specified text. Updates CAS with
+ * annotation, except for words found in list of most common English words -- passes to addtoCas
  * 
- * List of most common words is from:
- * http://www.wordfrequency.info/free.asp
- */
+ * List of most common words is from: http://www.wordfrequency.info/free.asp
+ * 
+ * @author Lara Martin
+ **/
 
-public class PosTagger extends Annotater_Helper {
+public class PosTagger extends AnnotaterHelper {
 
   private ArrayList<String> common;
 
@@ -64,12 +62,13 @@ public class PosTagger extends Annotater_Helper {
   }
 
   /**
-   * Adding annotations to CAS from a map of positions, eliminating common words
+   * Adding annotations to CAS from a map of positions, eliminating common words. Sets confidence to
+   * the F1 measure of this AE used by itself on the training data.
    *
    * @param m
    *          a map with starting positions(int) for keys and end positions(int) as values
    * @param doc
-   *          a string
+   *          a string that needs annotation
    * @param aCAS
    *          the JCas you want to add the annotations to
    * @return void
@@ -110,6 +109,15 @@ public class PosTagger extends Annotater_Helper {
     return list;
   }
 
+  /**
+   * Adding annotations to CAS from a map of positions, eliminating common words. Sets confidence to
+   * the F1 measure of this AE used by itself on the training data.
+   *
+   * @param text
+   *          Document text which needs annotations
+   * @return Map<Integer, Integer> of positions of annotations. Key is beginning index, value is end
+   *         index.
+   */
   public Map<Integer, Integer> getGeneSpans(String text) {
     Map<Integer, Integer> begin2end = new HashMap<Integer, Integer>();
     Annotation document = new Annotation(text);

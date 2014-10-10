@@ -15,13 +15,12 @@ import org.apache.uima.resource.ResourceInitializationException;
 import org.apache.uima.util.Progress;
 import objects.DocID;
 
-/* 
- * Given input file, opens and reads it
- * If input is not specified in cpe xml, uses PARAM_INPUTFILE default location
- * Each line is its own CAS
- * Separates line by <ID> <text>
- * Used org.apache.uima.examples.cpe.FileSystemCollectionReader as template
- */
+/**
+ * Given input file, opens and reads it. If input is not specified in cpe.xml, uses PARAM_INPUTFILE
+ * default location. Each line is its own CAS Separates line by <ID> <text>.
+ * 
+ * @author Lara Martin
+ **/
 
 public class Inputer extends CollectionReader_ImplBase {
   public static final String PARAM_INPUTFILE = "src/main/resources/data/sample.in";
@@ -37,7 +36,7 @@ public class Inputer extends CollectionReader_ImplBase {
 
   public void initialize() throws ResourceInitializationException {
 
-    // extract configuration parameter settings
+    // finds inputFile from cpe
     String iPath = (String) getUimaContext().getConfigParameterValue("inputFile");
 
     // If the parameter is not set, read from default file
@@ -75,6 +74,7 @@ public class Inputer extends CollectionReader_ImplBase {
 
     // add object to CAS
     jcas.setDocumentText(text);
+    // Add to DocID object
     DocID did = new DocID(jcas);
     did.setID(id);
     did.addToIndexes();

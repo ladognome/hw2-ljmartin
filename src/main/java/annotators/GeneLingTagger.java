@@ -12,17 +12,20 @@ import com.aliasi.chunk.Chunk;
 import com.aliasi.chunk.ConfidenceChunker;
 import com.aliasi.util.AbstractExternalizable;
 
-import util.Annotater_Helper;
+import util.AnnotaterHelper;
 
-/*
- * Gets the N-best chunks from LingPipe's genetag named entity extractor (HMM chunker)
- * Updates CAS with annotation for each sentence -- passes to addtoCas
- */
+/**
+ * Analysis Engine which gets the N-best chunks from LingPipe's genetag named entity extractor (HMM
+ * chunker). Updates CAS with annotation for each sentence -- passes to addtoCas.
+ * 
+ * @author Lara Martin
+ **/
 
-public class GeneLingTagger extends Annotater_Helper {
+public class GeneLingTagger extends AnnotaterHelper {
 
   private ConfidenceChunker chunker;
 
+  // max number of chunks to find in a document
   static int MAX_N_BEST_CHUNKS = 10;
 
   public void initialize(UimaContext aContext) throws ResourceInitializationException {
@@ -37,28 +40,29 @@ public class GeneLingTagger extends Annotater_Helper {
     }
   }
 
+  /**
+   * Call chunker method for each CAS
+   **/
   @Override
   public void process(JCas aCAS) throws AnalysisEngineProcessException {
 
     // get document text from JCas
     String docText = aCAS.getDocumentText();
 
-    iterateMap(docText, aCAS);
+    chunker(docText, aCAS);
 
   }
 
   /**
-   * Adding annotations to CAS from a map of positions, eliminating common words
+   * Adding annotations to CAS from LingPipe chunker
    *
-   * @param pos
-   *          a map with starting positions(int) for keys and end positions(int) as values
    * @param doc
-   *          a string
+   *          a string of the original text
    * @param aCAS
    *          the JCas you want to add the annotations to
    * @return void
    */
-  private void iterateMap(String doc, JCas aCAS) {
+  private void chunker(String doc, JCas aCAS) {
 
     char[] cs = doc.toCharArray();
     Iterator<Chunk> it = chunker.nBestChunks(cs, 0, cs.length, MAX_N_BEST_CHUNKS);
@@ -67,6 +71,7 @@ public class GeneLingTagger extends Annotater_Helper {
       double conf = Math.pow(2.0, chunk.score());
       int start = chunk.start();
       int end = chunk.end();
+      // Only add to CAS if chunk above 0.6 confidence
       if (conf > 0.6) {
         // System.out.println(start + " " + end + " " + conf + " " + doc.substring(start, end));
         addToCas(start, end, conf, doc, this.getClass().getName(), aCAS);

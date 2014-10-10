@@ -9,7 +9,7 @@
 				<nameValuePair>
 					<name>inputFile</name>
 					<value>
-						<string>src/main/resources/data/sample.in</string>
+						<string>hw2.in</string>
 					</value>
 				</nameValuePair>
 			</configurationParameterSettings>
@@ -39,21 +39,21 @@
 				<maxConsecutiveRestarts action="terminate"
 					value="30" />
 				<timeout max="100000" default="-1" />
-			</errorHandling>
+			</errorHandling>src/main/resources/data/sample.in
 			<checkpoint batch="10000" time="1000ms" />
 			<configurationParameterSettings>
 				<nameValuePair>
 					<name>outputFile</name>
 					<value>
-						<string>src/main/resources/data/prediction.out</string>
+						<string>hw2-ljmartin.out</string>
 					</value>
 				</nameValuePair>
-				<nameValuePair>
+				<!-- <nameValuePair>
 					<name>goldStandard</name>
 					<value>
 						<string>src/main/resources/data/sample.out</string>
 					</value>
-				</nameValuePair>
+				</nameValuePair>-->
 			</configurationParameterSettings>
 		</casProcessor>
 	</casProcessors>
